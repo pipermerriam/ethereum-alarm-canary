@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static pipeline argonauts %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Reliability Canary{% endblock %}</title>
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+        <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+        {% if ROLLBAR_CONFIG %}
+            <script type="text/javascript">var _rollbarConfig = {{ ROLLBAR_CONFIG|json }};</script>
+            {% javascript 'rollbar' %}
+        {% endif %}
+
+        {% stylesheet 'base' %}
+
+        {% block extra_css %}
+        {% endblock %}
+    </head>
+
+    <body>
+    {% block body %}
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'site-index' %}">Reliability Canary</a>
+                {% comment %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'site-index' %}#home-features">Features</a></li>
+                </ul>
+                {% endcomment %}
+                <ul class="nav navbar-nav pull-right">
+                    <li><a href="//www.ethereum-alarm-clock.com">Main</a></li>
+                    <li><a href="//docs.ethereum-alarm-clock.com">Documentation</a></li>
+                    <li><a href="//blog.ethereum-alarm-clock.com">Blog</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="main-content">
+            {% block content_wrapper %}
+            {% endblock content_wrapper %}
+            <div id="footer" class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr>
+                        <ul class="list-inline">
+                            <li>Created by Piper Merriam - <a href="https://github.com/pipermerriam/" target="_blank">github</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% javascript 'base' %}
+
+        {% block extra_javascript %}
+        {% endblock %}
+    {% endblock body %}
+    </body>
+</html>
