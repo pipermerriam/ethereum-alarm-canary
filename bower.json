@@ -19,6 +19,9 @@
   "dependencies": {
     "bootstrap": "v4.0.0-alpha.2",
     "react": "~0.14.3",
-    "tether": "~1.1.1"
+    "tether": "~1.1.1",
+    "immutable": "~3.7.6",
+    "flux": "~2.1.1",
+    "fluxxor": "~1.7.3"
   }
 }

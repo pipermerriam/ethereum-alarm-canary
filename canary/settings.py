@@ -106,13 +106,13 @@ USE_TZ = True
 STATIC_URL = excavator.env_string('DJANGO_STATIC_URL', default='/static/')
 STATIC_ROOT = excavator.env_string(
     'DJANGO_STATIC_ROOT',
-    default=os.path.join(BASE_DIR, 'static'),
+    default=os.path.join(BASE_DIR, 'canary', 'public', 'static'),
 )
 
 MEDIA_URL = excavator.env_string('DJANGO_MEDIA_URL', default='/media/')
 MEDIA_ROOT = excavator.env_string(
     'DJANGO_MEDIA_ROOT',
-    default=os.path.join(BASE_DIR, 'media'),
+    default=os.path.join(BASE_DIR, 'canary', 'public', 'media'),
 )
 
 DEFAULT_FILE_STORAGE = excavator.env_string(
@@ -135,11 +135,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'pipeline.finders.PipelineFinder',
 )
-
-# Sentry
-RAVEN_CONFIG = {
-    'dsn': excavator.env_string('SENTRY_DSN', default=None),
-}
 
 # Herokuify
 SECURE_PROXY_SSL_HEADER = excavator.env_list('SECURE_PROXY_SSL_HEADER', default=None)
@@ -183,12 +178,13 @@ PIPELINE = {
         'project': {
             'source_filenames': (
                 "js/project.js",
+                "js/canary_store.js",
             ),
             'output_filename': 'js/project.js',
         },
         'components': {
             'source_filenames': (
-                "components/TestComponent.jsx",
+                "components/*.jsx",
             ),
             'output_filename': 'js/project.js',
         },
@@ -199,6 +195,9 @@ PIPELINE = {
                 "bootstrap/dist/js/bootstrap.js",
                 "react/react.js",
                 "react/react-dom.js",
+                "immutable/dist/immutable.js",
+                "flux/dist/Flux.js",
+                "fluxxor/build/fluxxor.js",
             ),
             'output_filename': 'js/dependencies.js',
         },

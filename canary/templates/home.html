@@ -3,9 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content_wrapper %}
-<div class="container">
-  <h1>Test</h1>
-  <div id="test-1"></div>
+<div id="canary" class="container">
 </div>
 {% endblock content_wrapper %}
 
@@ -14,8 +12,8 @@
 $(function() {
   console.log("starting");
   ReactDOM.render(
-    Canary.TestComponent,
-    document.getElementById('test-1')
+    React.createElement(Canary.App),
+    document.getElementById('canary')
   );
   console.log("finished");
 
