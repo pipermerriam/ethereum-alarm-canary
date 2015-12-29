@@ -54,3 +54,11 @@ def deploy_canary_contract(deployed_contracts, deploy_client, denoms, Canary):
 @pytest.fixture()
 def canary(deploy_canary_contract):
     return deploy_canary_contract()
+
+
+@pytest.fixture()
+def api_client():
+    from rest_framework.test import APIClient
+
+    client = APIClient()
+    return client

@@ -210,3 +210,14 @@ PIPELINE = {
         'react.utils.pipeline.JSXCompiler',
     ),
 }
+
+# Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
