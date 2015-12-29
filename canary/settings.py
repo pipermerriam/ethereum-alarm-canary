@@ -36,6 +36,7 @@ ALLOWED_HOSTS = excavator.env_list('DJANGO_ALLOWED_HOSTS', required=not DEBUG)
 INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'pipeline',
     'canary',
 ]
 
@@ -58,12 +59,15 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.tz",
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'canary.wsgi.application'
 
@@ -121,7 +125,8 @@ STATICFILES_STORAGE = excavator.env_string(
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'eth_alarm', 'static'),
+    os.path.join(BASE_DIR, 'canary', 'static'),
+    os.path.join(BASE_DIR, 'bower_components'),
 )
 
 # Static file finders.
@@ -158,39 +163,51 @@ DEFAULT_S3_PATH = "media"
 STATIC_S3_PATH = "static"
 
 # Django Pipeline Settings
-PIPELINE_DISABLE_WRAPPER = excavator.env_bool(
-    'DJANGO_PIPELINE_DISABLE_WRAPPER', default=True,
-)
-PIPELINE_ENABLED = excavator.env_bool('DJANGO_PIPELINE_ENABLED', not DEBUG)
-PIPELINE_CSS = {
-    'base': {
-        'source_filenames': (
-            "css/bootstrap.css",
-            "css/project.css",
-        ),
-        'output_filename': 'css/base.css',
+PIPELINE = {
+    'STYLESHEETS': {
+        'project': {
+            'source_filenames': (
+                "css/project.css",
+            ),
+            'output_filename': 'css/project.css',
+        },
+        'dependencies': {
+            'source_filenames': (
+                "tether/dist/css/tether.css",
+                "bootstrap/dist/css/bootstrap.css",
+            ),
+            'output_filename': 'css/dependencies.css',
+        },
     },
+    'JAVASCRIPT': {
+        'project': {
+            'source_filenames': (
+                "js/project.js",
+            ),
+            'output_filename': 'js/project.js',
+        },
+        'components': {
+            'source_filenames': (
+                "components/TestComponent.jsx",
+            ),
+            'output_filename': 'js/project.js',
+        },
+        'dependencies': {
+            'source_filenames': (
+                "jquery/dist/jquery.js",
+                "tether/dist/js/tether.js",
+                "bootstrap/dist/js/bootstrap.js",
+                "react/react.js",
+                "react/react-dom.js",
+            ),
+            'output_filename': 'js/dependencies.js',
+        },
+    },
+    'CSS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
+    'JS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
+    'PIPELINE_ENABLED': excavator.env_bool('DJANGO_PIPELINE_ENABLED', not DEBUG),
+    'DISABLE_WRAPPER': True,
+    'COMPILERS': (
+        'react.utils.pipeline.JSXCompiler',
+    ),
 }
-
-PIPELINE_JS = {
-    'base': {
-        'source_filenames': (
-            "js/jquery.js",
-            "js/bootstrap.js",
-            "js/project.js",
-        ),
-        'output_filename': 'js/base.js',
-    },
-    'rollbar': {
-        'source_filenames': (
-            "js/rollbar.js",
-        ),
-        'output_filename': 'js/rollbar.js',
-    },
-}
-PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.NoopCompressor'
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.NoopCompressor'
-
-PIPELINE_TEMPLATE_EXT = '.handlebars'
-PIPELINE_TEMPLATE_FUNC = 'Handlebars.compile'
-PIPELINE_TEMPLATE_NAMESPACE = 'Handlebars.templates'

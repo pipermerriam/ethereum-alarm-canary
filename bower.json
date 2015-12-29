@@ -1,0 +1,24 @@
+{
+  "name": "ethereum-alarm-canary",
+  "homepage": "https://github.com/pipermerriam/ethereum-alarm-canary",
+  "authors": [
+    "Piper Merriam <pipermerriam@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "v4.0.0-alpha.2",
+    "react": "~0.14.3",
+    "tether": "~1.1.1"
+  }
+}
