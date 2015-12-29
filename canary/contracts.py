@@ -5,7 +5,7 @@ from populus.contracts import Contract
 
 
 BASE_DIR = os.path.dirname(__file__)
-CONTRACT_ABI_PATH = os.path.join(BASE_DIR, 'versions', 'v0.6', 'contracts.json')
+CONTRACT_ABI_PATH = os.path.join(BASE_DIR, 'versions', 'v0.6', 'build', 'contracts.json')
 
 
 contract_json = json.loads(open(CONTRACT_ABI_PATH).read())
