@@ -13,5 +13,7 @@ class ConstantFunctionField(serializers.Field):
 
 
 class CanarySerializer(serializers.Serializer):
+    address = serializers.CharField(source="_meta.address")
     is_alive = ConstantFunctionField('isAlive')
     heartbeat_count = ConstantFunctionField('heartbeatCount')
+    alive_since = ConstantFunctionField('aliveSince')

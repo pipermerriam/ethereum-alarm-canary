@@ -15,5 +15,5 @@ future_block_call_meta = contract_json['FutureBlockCall']
 FutureBlockCall = Contract(future_block_call_meta, "FutureBlockCall")
 
 
-canary_meta = contract_json['FutureBlockCall']
-Canary = Contract(future_block_call_meta, "FutureBlockCall")
+canary_meta = contract_json['Canary']
+Canary = Contract(canary_meta, "Canary")

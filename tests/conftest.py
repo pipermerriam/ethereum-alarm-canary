@@ -62,3 +62,10 @@ def api_client():
 
     client = APIClient()
     return client
+
+
+@pytest.fixture()
+def api_blockchain_client(deploy_client):
+    from canary import blockchain_client
+    blockchain_client._client = deploy_client
+    return blockchain_client._client

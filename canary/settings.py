@@ -36,6 +36,8 @@ ALLOWED_HOSTS = excavator.env_list('DJANGO_ALLOWED_HOSTS', required=not DEBUG)
 INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'pipeline',
     'canary',
 ]
@@ -137,7 +139,8 @@ STATICFILES_FINDERS = (
 )
 
 # Herokuify
-SECURE_PROXY_SSL_HEADER = excavator.env_list('SECURE_PROXY_SSL_HEADER', default=None)
+if 'SECURE_PROXY_SSL_HEADER' in os.environ:
+    SECURE_PROXY_SSL_HEADER = excavator.env_list('SECURE_PROXY_SSL_HEADER', default=None)
 
 # AWS
 AWS_ACCESS_KEY_ID = excavator.env_string('AWS_ACCESS_KEY_ID')
@@ -175,16 +178,34 @@ PIPELINE = {
         },
     },
     'JAVASCRIPT': {
-        'project': {
+        'config': {
             'source_filenames': (
-                "js/project.js",
-                "js/canary_store.js",
+                "config/canary.js",
+                "config/flux.js",
             ),
-            'output_filename': 'js/project.js',
+            'output_filename': 'js/config.js',
+        },
+        'actions': {
+            'source_filenames': (
+                "actions/*.js",
+            ),
+            'output_filename': 'js/actions.js',
+        },
+        'stores': {
+            'source_filenames': (
+                "stores/*.js",
+            ),
+            'output_filename': 'js/stores.js',
         },
         'components': {
             'source_filenames': (
                 "components/*.jsx",
+            ),
+            'output_filename': 'js/project.js',
+        },
+        'project': {
+            'source_filenames': (
+                "js/project.js",
             ),
             'output_filename': 'js/project.js',
         },
@@ -198,6 +219,7 @@ PIPELINE = {
                 "immutable/dist/immutable.js",
                 "flux/dist/Flux.js",
                 "fluxxor/build/fluxxor.js",
+                "lodash/lodash.js",
             ),
             'output_filename': 'js/dependencies.js',
         },
@@ -211,11 +233,21 @@ PIPELINE = {
     ),
 }
 
+# Blockchain Client
+BLOCKCHAIN_CLIENT_URL = excavator.env_string(
+    'BLOCKCHAIN_CLIENT_URL',
+    default="rpc://127.0.0.1:8545",
+)
+
+# Canary Contract Addresses
+CANARY_CONTRACT_ADDRESSES = excavator.env_list(
+    'CANARY_CONTRACT_ADDRESSES',
+    default='0x675e2c143295b8683b5aed421329c4df85f91b33'
+)
+
 # Rest Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': tuple(),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),

@@ -3,7 +3,7 @@ Canary.App = React.createClass({
     return (
       <div>
         <h1>Reliability Canary</h1>
-        <Canary.CanaryList />
+        <Canary.CanaryList flux={this.props.flux} />
       </div>
     );
   }

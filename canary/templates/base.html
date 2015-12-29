@@ -39,8 +39,11 @@
         </div>
 
         {% javascript 'dependencies' %}
-        {% javascript 'project' %}
+        {% javascript 'config' %}
+        {% javascript 'stores' %}
+        {% javascript 'actions' %}
         {% javascript 'components' %}
+        {% javascript 'project' %}
 
 
         {% block extra_javascript %}

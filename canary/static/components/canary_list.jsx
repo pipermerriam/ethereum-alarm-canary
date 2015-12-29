@@ -1,13 +1,18 @@
 Canary.CanaryList = React.createClass({
-  getInitialState() {
-    //return Canary.CanaryStore.getCanaries();
-    return new Immutable.List([
-      '0x675e2c143295b8683b5aed421329c4df85f91b33'
-    ]);
+  mixins: [FluxMixin, Fluxxor.StoreWatchMixin("canaryStore")],
+
+  getStateFromFlux() {
+    console.log("Addresses updated");
+    return {
+      addresses: Canary.flux.store("canaryStore").getCanaryAddresses()
+    }
   },
 
   render() {
-    var canaryCards = this.state.map(function(canaryAddress) {
+    var canaryCards = this.state.addresses.map(function(canaryAddress) {
+      if (!Canary.flux.store("canaryStore").isCanaryLoaded(canaryAddress)) {
+        Canary.flux.actions.fetchCanary(canaryAddress);
+      }
       return (
           <Canary.CanaryCard address={canaryAddress} key={canaryAddress}/>
       );
