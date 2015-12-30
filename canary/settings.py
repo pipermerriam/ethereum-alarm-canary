@@ -167,7 +167,7 @@ PIPELINE = {
             'source_filenames': (
                 "css/project.css",
             ),
-            'output_filename': 'css/project.css',
+            'output_filename': 'css/app.css',
         },
         'dependencies': {
             'source_filenames': (
@@ -201,13 +201,13 @@ PIPELINE = {
             'source_filenames': (
                 "js/components/*.jsx",
             ),
-            'output_filename': 'js/project.js',
+            'output_filename': 'js/components.js',
         },
         'project': {
             'source_filenames': (
                 "js/project.js",
             ),
-            'output_filename': 'js/project.js',
+            'output_filename': 'js/app.js',
         },
         'dependencies': {
             'source_filenames': (
