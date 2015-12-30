@@ -8,6 +8,11 @@ https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 """
 
 import os
+import dotenv
+
+PROJECT_PATH = os.path.dirname(__file__)
+
+dotenv.load_dotenv(os.path.join(PROJECT_PATH, ".env"))
 
 from django.core.wsgi import get_wsgi_application
 
