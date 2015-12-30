@@ -37,17 +37,18 @@ Canary.CanaryCard = React.createClass({
       return (
         <div className="card">
           <div className="card-header">
-            <span className={"label label-" + this.getLabelClass()}>{this.getLabelText()}</span>
+            <h4 className="card-title">
+              Canary <span className={"label label-" + this.getLabelClass()}>{this.getLabelText()}</span>
+            </h4>
+            <h4 className="card-title">
+              <code>{this.props.address}</code>
+            </h4>
           </div>
           <div className="card-block">
-            <h4 className="card-title">Canary</h4>
-            <p className="card-text">Canary at <code>{this.props.address}</code></p>
-            <p className="card-text">{this.state.heartbeat_count} Heartbeats</p>
-            <p className="card-text">Alive Since {this.getAliveSinceDisplay()}</p>
+            <p className="card-text">This canary contract has been alive since {this.getAliveSinceDisplay()}.  There have been {this.state.heartbeat_count} heartbeats.</p>
           </div>
         </div>
       );
     }
   }
 });
-

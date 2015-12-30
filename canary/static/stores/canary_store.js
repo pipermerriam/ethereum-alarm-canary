@@ -27,6 +27,7 @@
      */
     setCanaryAddresses: function(payload, type) {
       canaryAddresses = new Immutable.List(payload.addresses);
+      this.emit("change");
     },
 
     setCanary: function(payload, type) {

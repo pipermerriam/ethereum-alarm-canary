@@ -11,6 +11,7 @@ Canary.CanaryList = React.createClass({
   render() {
     var canaryCards = this.state.addresses.map(function(canaryAddress) {
       if (!Canary.flux.store("canaryStore").isCanaryLoaded(canaryAddress)) {
+        console.log("loading canary: " + canaryAddress);
         Canary.flux.actions.fetchCanary(canaryAddress);
       }
       return (
