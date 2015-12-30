@@ -212,7 +212,6 @@ PIPELINE = {
         'dependencies': {
             'source_filenames': (
                 "jquery/dist/jquery.js",
-                "tether/dist/js/tether.js",
                 "bootstrap/dist/js/bootstrap.js",
                 "react/react.js",
                 "react/react-dom.js",
