@@ -180,26 +180,26 @@ PIPELINE = {
     'JAVASCRIPT': {
         'config': {
             'source_filenames': (
-                "config/canary.js",
-                "config/flux.js",
+                "js/config/canary.js",
+                "js/config/flux.js",
             ),
             'output_filename': 'js/config.js',
         },
         'actions': {
             'source_filenames': (
-                "actions/*.js",
+                "js/actions/*.js",
             ),
             'output_filename': 'js/actions.js',
         },
         'stores': {
             'source_filenames': (
-                "stores/*.js",
+                "js/stores/*.js",
             ),
             'output_filename': 'js/stores.js',
         },
         'components': {
             'source_filenames': (
-                "components/*.jsx",
+                "js/components/*.jsx",
             ),
             'output_filename': 'js/project.js',
         },
