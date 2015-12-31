@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-{% load static pipeline %}
+{% load pipeline %}
 <html>
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Reliability Canary{% endblock %}</title>
-        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-        <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
         {% stylesheet 'dependencies' %}
         {% stylesheet 'project' %}
 
