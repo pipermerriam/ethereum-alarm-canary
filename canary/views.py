@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import Http404
 
 from rest_framework import generics
 from rest_framework import views
@@ -26,5 +27,7 @@ class CanaryRetrieveAPIView(generics.RetrieveAPIView):
     def get_object(self):
         client = get_blockchain_client()
         canary_address = self.kwargs['address']
+        if len(client.get_code(canary_address)) <= 2:
+            raise Http404
         canary = Canary(canary_address, client)
         return canary

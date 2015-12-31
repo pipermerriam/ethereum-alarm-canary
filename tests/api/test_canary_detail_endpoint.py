@@ -38,3 +38,15 @@ def test_canary_retrieve_api_view(canary, deployed_contracts, deploy_client,
     assert response.data['is_alive'] is False
     assert canary.heartbeatCount() == 0
     assert response.data['heartbeat_count'] == 0
+
+
+@pytest.mark.django_db
+def test_canary_retrieve_for_unknown_address(canary, deployed_contracts,
+                                             deploy_client, api_client,
+                                             api_blockchain_client):
+    url = reverse(
+        'canary-detail',
+        kwargs={'address': '0x0000000000000000000000000000000000000000'},
+    )
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_404_NOT_FOUND

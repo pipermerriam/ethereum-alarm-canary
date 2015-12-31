@@ -17,3 +17,4 @@ class CanarySerializer(serializers.Serializer):
     is_alive = ConstantFunctionField('isAlive')
     heartbeat_count = ConstantFunctionField('heartbeatCount')
     alive_since = ConstantFunctionField('aliveSince')
+    last_heartbeat = ConstantFunctionField('lastHeartbeat')

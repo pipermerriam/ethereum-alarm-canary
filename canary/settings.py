@@ -241,7 +241,10 @@ BLOCKCHAIN_CLIENT_URL = excavator.env_string(
 # Canary Contract Addresses
 CANARY_CONTRACT_ADDRESSES = excavator.env_list(
     'CANARY_CONTRACT_ADDRESSES',
-    default='0x675e2c143295b8683b5aed421329c4df85f91b33'
+    default=(
+        '0xe6d67a9f41b820072cd0764117792691f6112eec,'
+        '0x675e2c143295b8683b5aed421329c4df85f91b33'
+    )
 )
 
 # Rest Framework
