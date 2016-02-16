@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-import excavator
+import excavator as env
 import dj_database_url
 import django_cache_url
 
@@ -23,12 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = excavator.env_string('DJANGO_SECRET_KEY', required=True)
+SECRET_KEY = env.get('DJANGO_SECRET_KEY', required=True)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = excavator.env_bool('DJANGO_DEBUG', default=True)
+DEBUG = env.get('DJANGO_DEBUG', type=bool, default=True)
 
-ALLOWED_HOSTS = excavator.env_list('DJANGO_ALLOWED_HOSTS', required=not DEBUG)
+ALLOWED_HOSTS = env.get('DJANGO_ALLOWED_HOSTS', type=list, required=not DEBUG)
 
 
 # Application definition
@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'pipeline',
-    'canary',
+    'alarm_web.core',
+    'alarm_web.apps.canary',
+    'alarm_web.apps.explorer',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -50,7 +52,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'canary.urls'
+ROOT_URLCONF = env.get('DJANGO_ROOT_URLCONF', required=True)
 
 TEMPLATES = [
     {
@@ -71,14 +73,14 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'canary.wsgi.application'
+WSGI_APPLICATION = 'alarm_web.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse(excavator.env_string('DATABASE_URL', required=True)),
+    'default': dj_database_url.parse(env.get('DATABASE_URL', required=True)),
 }
 DATABASES['default'].setdefault('ATOMIC_REQUESTS', True)
 
@@ -105,29 +107,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = excavator.env_string('DJANGO_STATIC_URL', default='/static/')
-STATIC_ROOT = excavator.env_string(
+STATIC_URL = env.get('DJANGO_STATIC_URL', default='/static/')
+STATIC_ROOT = env.get(
     'DJANGO_STATIC_ROOT',
-    default=os.path.join(BASE_DIR, 'canary', 'public', 'static'),
+    default=os.path.join(BASE_DIR, 'alarm_web', 'public', 'static'),
 )
 
-MEDIA_URL = excavator.env_string('DJANGO_MEDIA_URL', default='/media/')
-MEDIA_ROOT = excavator.env_string(
+MEDIA_URL = env.get('DJANGO_MEDIA_URL', default='/media/')
+MEDIA_ROOT = env.get(
     'DJANGO_MEDIA_ROOT',
-    default=os.path.join(BASE_DIR, 'canary', 'public', 'media'),
+    default=os.path.join(BASE_DIR, 'alarm_web', 'public', 'media'),
 )
 
-DEFAULT_FILE_STORAGE = excavator.env_string(
+DEFAULT_FILE_STORAGE = env.get(
     "DJANGO_DEFAULT_FILE_STORAGE",
     default="django.core.files.storage.FileSystemStorage",
 )
-STATICFILES_STORAGE = excavator.env_string(
+STATICFILES_STORAGE = env.get(
     "DJANGO_STATICFILES_STORAGE",
     default="django.contrib.staticfiles.storage.StaticFilesStorage"
 )
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'canary', 'static'),
+    os.path.join(BASE_DIR, 'alarm_web', 'static'),
     os.path.join(BASE_DIR, 'bower_components'),
 )
 
@@ -140,12 +142,12 @@ STATICFILES_FINDERS = (
 
 # Herokuify
 if 'SECURE_PROXY_SSL_HEADER' in os.environ:
-    SECURE_PROXY_SSL_HEADER = excavator.env_list('SECURE_PROXY_SSL_HEADER', default=None)
+    SECURE_PROXY_SSL_HEADER = env.get('SECURE_PROXY_SSL_HEADER', type=list, default=None)
 
 # AWS
-AWS_ACCESS_KEY_ID = excavator.env_string('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = excavator.env_string('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = excavator.env_string('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = env.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env.get('AWS_STORAGE_BUCKET_NAME')
 
 AWS_REDUCED_REDUNDANCY = True
 AWS_QUERYSTRING_AUTH = False
@@ -212,6 +214,7 @@ PIPELINE = {
         'dependencies': {
             'source_filenames': (
                 "jquery/dist/jquery.js",
+                "tether/dist/js/tether.js",
                 "bootstrap/dist/js/bootstrap.js",
                 "react/react.js",
                 "react/react-dom.js",
@@ -225,7 +228,7 @@ PIPELINE = {
     },
     'CSS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
     'JS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
-    'PIPELINE_ENABLED': excavator.env_bool('DJANGO_PIPELINE_ENABLED', not DEBUG),
+    'PIPELINE_ENABLED': env.get('DJANGO_PIPELINE_ENABLED', type=bool, required=not DEBUG),
     'DISABLE_WRAPPER': True,
     'COMPILERS': (
         'react.utils.pipeline.JSXCompiler',
@@ -233,14 +236,15 @@ PIPELINE = {
 }
 
 # Blockchain Client
-BLOCKCHAIN_CLIENT_URL = excavator.env_string(
+BLOCKCHAIN_CLIENT_URL = env.get(
     'BLOCKCHAIN_CLIENT_URL',
     default="rpc://127.0.0.1:8545",
 )
 
 # Canary Contract Addresses
-CANARY_CONTRACT_ADDRESSES = excavator.env_list(
+CANARY_CONTRACT_ADDRESSES = env.get(
     'CANARY_CONTRACT_ADDRESSES',
+    type=list,
     default=(
         '0xe6d67a9f41b820072cd0764117792691f6112eec,'
         '0x675e2c143295b8683b5aed421329c4df85f91b33'

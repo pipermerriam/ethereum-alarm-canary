@@ -16,6 +16,6 @@ dotenv.load_dotenv(os.path.join(PROJECT_PATH, ".env"))
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "canary.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "alarm_web.settings")
 
 application = get_wsgi_application()

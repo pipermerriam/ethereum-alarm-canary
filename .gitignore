@@ -1,10 +1,10 @@
 bower_components/
-canary/public
+alarm_web/public
 *.pyc
 *.sqlite
 .env
 
 # JSX Files
-canary/static/js/components/app.js
-canary/static/js/components/canary_card.js
-canary/static/js/components/canary_list.js
+alarm_web/static/js/components/app.js
+alarm_web/static/js/components/canary_card.js
+alarm_web/static/js/components/canary_list.js

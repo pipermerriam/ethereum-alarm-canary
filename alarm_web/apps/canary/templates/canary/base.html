@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load pipeline %}
+{% load pipeline staticfiles %}
 <html>
     <head>
         <meta charset="UTF-8">
@@ -14,7 +14,7 @@
     <body>
     {% block body %}
       <nav class="navbar navbar-light bg-faded navbar-fixed-top">
-        <a class="navbar-brand" href="{% url 'site-index' %}">Reliability Canary</a>
+        <a class="navbar-brand" href="{% url 'index' %}">Main</a>
         <ul class="nav navbar-nav pull-xs-right">
           <li class="nav-item"><a class="nav-link" href="//www.ethereum-alarm-clock.com">Main Site</a></li>
           <li class="nav-item"><a class="nav-link" href="//docs.ethereum-alarm-clock.com">Documentation</a></li>

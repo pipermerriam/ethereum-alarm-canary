@@ -2,13 +2,12 @@ from django.conf import settings
 from django.http import Http404
 
 from rest_framework import generics
-from rest_framework import views
 from rest_framework import response
 
-from canary.serializers import CanarySerializer
-from canary.contracts import Canary
-from canary.blockchain_client import get_blockchain_client
-from canary.pagination import FakePaginiation
+from alarm_web.blockchain_client import get_blockchain_client
+
+from alarm_web.apps.canary.contracts import Canary
+from alarm_web.apps.canary.serializers import CanarySerializer
 
 
 class CanaryListAPIView(generics.ListAPIView):

@@ -9,7 +9,7 @@ dotenv.load_dotenv(os.path.join(PROJECT_PATH, ".env"))
 dotenv.load_dotenv(os.path.join(PROJECT_PATH, ".env_defaults"))
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "canary.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "alarm_web.settings")
 
     from django.core.management import execute_from_command_line
 
