@@ -8,18 +8,8 @@ Canary.CanaryList = React.createClass({
 
   _onChange: function() {
     console.log("Addresses updated");
-    var canaryAddresses = Canary.stores.CanaryStore.getCanaryAddresses();
-
-    debugger;
-    canaryAddresses.map(function(canaryAddress) {
-      if (!Canary.stores.CanaryStore.isCanaryLoaded(canaryAddress)) {
-        console.log("loading canary: " + canaryAddress);
-        Canary.actions.fetchCanary(canaryAddress);
-      }
-    });
-
     this.setState({
-      addresses: canaryAddresses
+      addresses: Canary.stores.CanaryStore.getCanaryAddresses()
     });
   },
 

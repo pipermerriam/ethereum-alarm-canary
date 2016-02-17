@@ -51,6 +51,7 @@ Canary.CanaryCard = React.createClass({
 
   render() {
     if (_.isNull(this.state)) {
+      Canary.actions.fetchCanary(this.props.address);
       return (
         <Canary.LoadingCanary address={this.props.address} />
       );

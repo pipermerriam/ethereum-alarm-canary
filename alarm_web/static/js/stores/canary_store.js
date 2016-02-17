@@ -1,7 +1,6 @@
 (function() {
   Canary.stores = Canary.stores || {};
 
-  var canaryAddresses = new Immutable.List();
   var canaries = new Immutable.OrderedMap();
 
   var CHANGE_EVENT = "change";
@@ -11,7 +10,7 @@
      *  Getters
      */
     getCanaryAddresses: function() {
-      return canaryAddresses;
+      return new Immutable.List(canaries.keys());
     },
 
     getCanary: function(address) {
@@ -19,7 +18,7 @@
     },
 
     isCanaryLoaded: function(address) {
-      return canaries.has(address);
+      return 
     },
 
     addChangeListener: function(callback) {
@@ -40,12 +39,13 @@
 
       switch (payload.actionType) {
         case "SET_CANARY_ADDRESSES":
-          canaryAddresses = new Immutable.List(payload.data.addresses);
+          _.forEach(payload.data.addresses, function(address) {
+            canaries = canaries.set(address, null);
+          });
           CanaryStore.emitChange();
           break;
         case "SET_CANARY":
-          debugger;
-          canaries = canaries.set(payload.address, payload.data);
+          canaries = canaries.set(payload.data.address, payload.data.data);
           CanaryStore.emitChange();
           break;
       }
