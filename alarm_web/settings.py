@@ -182,6 +182,7 @@ PIPELINE = {
         'config': {
             'source_filenames': (
                 "js/config/canary.js",
+                "js/config/explorer.js",
             ),
             'output_filename': 'js/config.js',
         },
@@ -219,6 +220,7 @@ PIPELINE = {
                 "lodash/lodash.js",
                 "flux/dist/Flux.js",
                 "eventemitter2/lib/eventemitter2.js",
+                "blockies/index.js",
             ),
             'output_filename': 'js/dependencies.js',
         },

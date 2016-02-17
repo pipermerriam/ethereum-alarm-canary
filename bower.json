@@ -21,6 +21,7 @@
     "react": "~0.14.3",
     "immutable": "~3.7.6",
     "lodash": "~3.10.1",
-    "flux": "~2.1.1"
+    "flux": "~2.1.1",
+    "blockies": "https://raw.githubusercontent.com/alexvandesande/blockies/9c463c7ae5a700f68de9b28f22d725be5e30c4d2/blockies.js"
   }
 }

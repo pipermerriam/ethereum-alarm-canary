@@ -3,7 +3,7 @@
 {% block title %}Canary{% endblock %}
 
 {% block content_wrapper %}
-<div id="canary" class="container">
+<div id="explorer" class="container">
 </div>
 {% endblock content_wrapper %}
 
@@ -13,8 +13,8 @@ $(function() {
   console.log("starting");
 
   ReactDOM.render(
-    React.createElement(Canary.App, {flux: Canary.flux}),
-    document.getElementById('canary')
+    React.createElement(Explorer.ExplorerMain),
+    document.getElementById('explorer')
   );
   console.log("finished");
 

@@ -1,4 +1,4 @@
-Canary.App = React.createClass({
+Canary.CanaryMain = React.createClass({
   render() {
     return (
       <div className="container">

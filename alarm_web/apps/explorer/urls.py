@@ -10,7 +10,7 @@ from alarm_web.apps.explorer.views import (
 
 urlpatterns = [
     url(
-        r'^$', TemplateView.as_view(template_name='index.html'),
+        r'^$', TemplateView.as_view(template_name='explorer/index.html'),
         name="index",
     ),
     url(
