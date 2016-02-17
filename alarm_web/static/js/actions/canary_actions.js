@@ -1,20 +1,34 @@
 Canary.actions = {
   fetchCanaryAddresses: function() {
+    console.log("Fetching canary list");
     $.ajax({
       url: "api/canaries/"
-    }).then($.proxy(function(data) {
-      this.dispatch("SET_CANARY_ADDRESSES", {addresses: data.results});
-    }, this))
+    }).then(function(data) {
+      Canary.dispatcher.dispatch({
+        actionType: "SET_CANARY_ADDRESSES",
+        data: {addresses: data.results}
+      });
+    })
   },
   fetchCanary: function(address) {
+    console.log("Fetching: " + address);
     $.ajax({
       url: "api/canaries/" + address + "/",
-      error: $.proxy(function(jqXHR, textStatus, errorThrown) {
-        this.dispatch("SET_CANARY", {address: address, data: {is_error: true}});
-      }, this),
-      success: $.proxy(function(data) {
-        this.dispatch("SET_CANARY", {address: address, data: data});
-      }, this)
+      error: function(jqXHR, textStatus, errorThrown) {
+        Canary.dispatcher.dispatch({
+          actionType: "SET_CANARY",
+          data: {
+            is_error: true,
+            error: jqXHR.responseJSON || jqXHR.responseText || textStatus,
+          }
+        });
+      },
+      success: function(data) {
+        Canary.dispatcher.dispatch({
+          actionType: "SET_CANARY",
+          data: {address: address, data: data}
+        });
+      }
     })
   }
 };

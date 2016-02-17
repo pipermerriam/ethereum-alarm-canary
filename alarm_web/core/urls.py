@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls import (
     url,
     include,
@@ -17,3 +19,7 @@ urlpatterns = [
         r'^explorer/', include('alarm_web.apps.explorer.urls', namespace="explorer"),
     ),
 ]
+
+
+if settings.ROOT_URLCONF == "alarm_web.core.urls" and settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

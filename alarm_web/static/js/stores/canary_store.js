@@ -1,12 +1,12 @@
 (function() {
+  Canary.stores = Canary.stores || {};
+
   var canaryAddresses = new Immutable.List();
   var canaries = new Immutable.OrderedMap();
 
-  Canary.CanaryStore = Fluxxor.createStore({
-    actions: {
-      "SET_CANARY_ADDRESSES": "setCanaryAddresses",
-      "SET_CANARY": "setCanary",
-    },
+  var CHANGE_EVENT = "change";
+
+  var CanaryStore = _.assign({}, EventEmitter2.prototype, {
     /*
      *  Getters
      */
@@ -22,18 +22,38 @@
       return canaries.has(address);
     },
 
-    /*
-     *  Action Handlers
-     */
-    setCanaryAddresses: function(payload, type) {
-      canaryAddresses = new Immutable.List(payload.addresses);
-      this.emit("change");
+    addChangeListener: function(callback) {
+      this.on(CHANGE_EVENT, callback);
     },
 
-    setCanary: function(payload, type) {
-      console.log("loaded address: " + payload.address);
-      canaries = canaries.set(payload.address, payload.data);
-      this.emit("change");
-    }
+    removeChangeListener: function(callback) {
+      this.removeListener(CHANGE_EVENT, callback);
+    },
+
+    emitChange: function() {
+      console.log("Canary Store changed");
+      this.emit(CHANGE_EVENT);
+    },
+
+    dispatcherIndex: Canary.dispatcher.register(function(payload) {
+      console.log("Handling action: " + payload.actionType);
+
+      switch (payload.actionType) {
+        case "SET_CANARY_ADDRESSES":
+          canaryAddresses = new Immutable.List(payload.data.addresses);
+          CanaryStore.emitChange();
+          break;
+        case "SET_CANARY":
+          debugger;
+          canaries = canaries.set(payload.address, payload.data);
+          CanaryStore.emitChange();
+          break;
+      }
+
+      return true;
+    })
+
   });
+
+  Canary.stores.CanaryStore = CanaryStore;
 })();

@@ -1,10 +1,25 @@
 Canary.CanaryCard = React.createClass({
-  mixins: [FluxMixin, Fluxxor.StoreWatchMixin("canaryStore")],
-
-  getStateFromFlux() {
-    return Canary.flux.store("canaryStore").getCanary(this.props.address);
+  getInitialState() {
+    console.log("initializing card: " + this.props.address);
+    return Canary.stores.CanaryStore.getCanary(this.props.address);
   },
 
+  _onChange: function() {
+    console.log("updating card: " + this.props.address);
+    this.setState(Canary.stores.CanaryStore.getCanary(this.props.address));
+  },
+
+  componentDidMount: function() {
+    Canary.stores.CanaryStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    Canary.stores.CanaryStore.removeChangeListener(this._onChange);
+  },
+
+  /*
+   *  Display helpers
+   */
   getLabelClass() {
     if (this.state.is_alive) {
       return "success";

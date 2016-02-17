@@ -1,4 +1,5 @@
 bower_components/
+node_modules/
 alarm_web/public
 *.pyc
 *.sqlite

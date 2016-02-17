@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls import url
 
 from alarm_web.apps.canary.views import (
@@ -23,3 +25,7 @@ urlpatterns = [
         name="canary-detail",
     )
 ]
+
+
+if settings.ROOT_URLCONF == "alarm_web.apps.canary.urls" and settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()

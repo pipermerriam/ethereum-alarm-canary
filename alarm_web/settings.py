@@ -125,7 +125,7 @@ DEFAULT_FILE_STORAGE = env.get(
 )
 STATICFILES_STORAGE = env.get(
     "DJANGO_STATICFILES_STORAGE",
-    default="django.contrib.staticfiles.storage.StaticFilesStorage"
+    default="pipeline.storage.PipelineCachedStorage",
 )
 
 STATICFILES_DIRS = (
@@ -173,7 +173,6 @@ PIPELINE = {
         },
         'dependencies': {
             'source_filenames': (
-                "tether/dist/css/tether.css",
                 "bootstrap/dist/css/bootstrap.css",
             ),
             'output_filename': 'css/dependencies.css',
@@ -183,7 +182,6 @@ PIPELINE = {
         'config': {
             'source_filenames': (
                 "js/config/canary.js",
-                "js/config/flux.js",
             ),
             'output_filename': 'js/config.js',
         },
@@ -214,21 +212,20 @@ PIPELINE = {
         'dependencies': {
             'source_filenames': (
                 "jquery/dist/jquery.js",
-                "tether/dist/js/tether.js",
                 "bootstrap/dist/js/bootstrap.js",
                 "react/react.js",
                 "react/react-dom.js",
                 "immutable/dist/immutable.js",
-                "flux/dist/Flux.js",
-                "fluxxor/build/fluxxor.js",
                 "lodash/lodash.js",
+                "flux/dist/Flux.js",
+                "eventemitter2/lib/eventemitter2.js",
             ),
             'output_filename': 'js/dependencies.js',
         },
     },
     'CSS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
     'JS_COMPRESSOR': 'pipeline.compressors.NoopCompressor',
-    'PIPELINE_ENABLED': env.get('DJANGO_PIPELINE_ENABLED', type=bool, required=not DEBUG),
+    'PIPELINE_ENABLED': env.get('DJANGO_PIPELINE_ENABLED', type=bool, default=not DEBUG),
     'DISABLE_WRAPPER': True,
     'COMPILERS': (
         'react.utils.pipeline.JSXCompiler',

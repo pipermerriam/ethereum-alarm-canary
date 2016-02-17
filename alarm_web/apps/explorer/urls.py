@@ -1,4 +1,6 @@
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls import url
 
 from alarm_web.apps.explorer.views import (
@@ -17,3 +19,7 @@ urlpatterns = [
         name="future-block-call-detail",
     )
 ]
+
+
+if settings.ROOT_URLCONF == "alarm_web.apps.explorer.urls" and settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
