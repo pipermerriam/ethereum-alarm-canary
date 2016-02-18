@@ -1,8 +1,7 @@
 Explorer.EthereumAddressIcon = React.createClass({
   getDefaultProps() {
     return {
-      size: 8,
-      scale: 16,
+      size: "large",
       extraClasses: []
     }
   },
@@ -10,11 +9,11 @@ Explorer.EthereumAddressIcon = React.createClass({
   render() {
     var dataURL = blockies.create({
       seed: this.props.address,
-      size: this.props.size,
-      scale: this.props.scale
+      size: 8,
+      scale: 16
     }).toDataURL();
 
-    classes = "icon-eth-address";
+    classes = "icon-eth-address icon-eth-address-" + this.props.size;
     extraClasses = _.reduce(this.props.extraClasses, function(cls) {
       return classes + " " + cls;
     });

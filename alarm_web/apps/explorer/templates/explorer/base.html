@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Alarm v7 Explorer{% endblock %}</title>
         {% stylesheet 'dependencies' %}
-        {% stylesheet 'project' %}
+        {% stylesheet 'explorer' %}
 
         {% block extra_css %}
         {% endblock %}
@@ -37,11 +37,7 @@
         </div>
 
         {% javascript 'dependencies' %}
-        {% javascript 'config' %}
-        {% javascript 'stores' %}
-        {% javascript 'actions' %}
-        {% javascript 'components' %}
-        {% javascript 'project' %}
+        {% javascript 'explorer' %}
 
 
         {% block extra_javascript %}

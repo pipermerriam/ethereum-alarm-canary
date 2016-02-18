@@ -165,11 +165,17 @@ STATIC_S3_PATH = "static"
 # Django Pipeline Settings
 PIPELINE = {
     'STYLESHEETS': {
-        'project': {
+        'canary': {
             'source_filenames': (
-                "css/project.css",
+                "css/canary/project.css",
             ),
-            'output_filename': 'css/app.css',
+            'output_filename': 'css/canary.css',
+        },
+        'explorer': {
+            'source_filenames': (
+                "css/explorer/project.css",
+            ),
+            'output_filename': 'css/explorer.css',
         },
         'dependencies': {
             'source_filenames': (
@@ -179,36 +185,26 @@ PIPELINE = {
         },
     },
     'JAVASCRIPT': {
-        'config': {
+        'canary': {
             'source_filenames': (
-                "js/config/canary.js",
-                "js/config/explorer.js",
+                "js/canary/config/canary.js",
+                "js/canary/actions/*.js",
+                "js/canary/stores/*.js",
+                "js/canary/components/*.jsx",
+                "js/canary/project.js",
             ),
-            'output_filename': 'js/config.js',
+            'output_filename': 'js/canary.js',
         },
-        'actions': {
+        'explorer': {
             'source_filenames': (
-                "js/actions/*.js",
+                "js/explorer/config/explorer.js",
+                "js/explorer/contracts/*.js",
+                "js/explorer/actions/*.js",
+                "js/explorer/stores/*.js",
+                "js/explorer/components/*.jsx",
+                "js/explorer/project.js",
             ),
-            'output_filename': 'js/actions.js',
-        },
-        'stores': {
-            'source_filenames': (
-                "js/stores/*.js",
-            ),
-            'output_filename': 'js/stores.js',
-        },
-        'components': {
-            'source_filenames': (
-                "js/components/*.jsx",
-            ),
-            'output_filename': 'js/components.js',
-        },
-        'project': {
-            'source_filenames': (
-                "js/project.js",
-            ),
-            'output_filename': 'js/app.js',
+            'output_filename': 'js/explorer.js',
         },
         'dependencies': {
             'source_filenames': (
@@ -221,6 +217,7 @@ PIPELINE = {
                 "flux/dist/Flux.js",
                 "eventemitter2/lib/eventemitter2.js",
                 "blockies/index.js",
+                "web3/dist/web3.js",
             ),
             'output_filename': 'js/dependencies.js',
         },

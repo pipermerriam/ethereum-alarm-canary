@@ -9,6 +9,13 @@ Canary.CanaryCard = React.createClass({
     this.setState(Canary.stores.CanaryStore.getCanary(this.props.address));
   },
 
+
+  componentWillMount: function() {
+    if (_.isNull(this.state)) {
+      Canary.actions.fetchCanary(this.props.address);
+    }
+  },
+
   componentDidMount: function() {
     Canary.stores.CanaryStore.addChangeListener(this._onChange);
   },
@@ -51,7 +58,6 @@ Canary.CanaryCard = React.createClass({
 
   render() {
     if (_.isNull(this.state)) {
-      Canary.actions.fetchCanary(this.props.address);
       return (
         <Canary.LoadingCanary address={this.props.address} />
       );
