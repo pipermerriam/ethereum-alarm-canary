@@ -1,7 +1,7 @@
 (function() {
   Explorer.stores = Explorer.stores || {};
 
-  var blockNumber;
+  var blockNumber = null;
   var CHANGE_EVENT = "change";
 
   var ChainStore = _.assign({}, EventEmitter2.prototype, {

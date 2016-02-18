@@ -217,6 +217,7 @@ PIPELINE = {
                 "flux/dist/Flux.js",
                 "eventemitter2/lib/eventemitter2.js",
                 "blockies/index.js",
+                "bignumber.js/bignumber.js",
                 "web3/dist/web3.js",
             ),
             'output_filename': 'js/dependencies.js',

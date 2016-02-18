@@ -1,7 +1,12 @@
 (function() {
   Explorer.stores = Explorer.stores || {};
 
+  /*
+   *  Data storage
+   */
   var nextCall = null;
+  var callTargetBlocks = new Immutable.Map();
+  var calls = new Immutable.List();
 
   var CHANGE_EVENT = "change";
 
@@ -11,6 +16,16 @@
      */
     getNextCall: function() {
       return nextCall;
+    },
+
+    getUpcomingCalls: function(anchor, numCalls) {
+      var startIndex = calls.indexOf(anchor);
+
+      if (startIndex === -1) {
+        return [];
+      } else {
+        return calls.slice(startIndex, startIndex + numCalls);
+      }
     },
 
     /*
@@ -28,12 +43,29 @@
       this.emit(CHANGE_EVENT);
     },
 
-    dispatcherIndex: Explorer.dispatcher.register(function(payload) {
+    dispatcherToken: Explorer.dispatcher.register(function(payload) {
       console.log("Handling action: " + payload.actionType);
 
       switch (payload.actionType) {
         case "SET_NEXT_CALL":
           nextCall = payload.data;
+          SchedulerStore.emitChange();
+          break;
+        case "SET_ENUMERATED_CALLS":
+          callTargetBlocks = callTargetBlocks.merge(
+            _.zipObject(payload.data.addresses.zip(payload.data.blockNumbers).toArray())
+          );
+          calls = callTargetBlocks.keySeq().sort(function(valueA, valueB) {
+            var blockA = callTargetBlocks.get(valueA);
+            var blockB = callTargetBlocks.get(valueB);
+            if (blockA == blockB) {
+              return 0;
+            } else if (blockA < blockB) {
+              return -1;
+            } else {
+              return 1;
+            }
+          }).toList();
           SchedulerStore.emitChange();
           break;
       }

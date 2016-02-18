@@ -1,15 +1,28 @@
 Explorer.CallHistoryTable = React.createClass({
+  getDefaultProps: function() {
+    return {
+      beforeRows: 5,
+      afterRows: 5,
+    };
+  },
   getInitialState: function() {
     return {
-      anchor: null
+      anchor: null,
+      addresses: []
     };
   },
 
   onChange: function() {
-    console.log("updating next call");
-    this.setState({
-      anchor: Explorer.stores.SchedulerStore.getNextCall()
-    });
+    var nextState = {}
+    if (!_.isString(this.state.anchor)) {
+      nextState.anchor = Explorer.stores.SchedulerStore.getNextCall();
+      Explorer.SchedulerActions.enumerateUpcomingCalls(nextState.anchor, this.props.afterRows);
+    } else {
+      nextState.anchor = this.state.anchor;
+    }
+
+    nextState.addresses = Explorer.stores.SchedulerStore.getUpcomingCalls(nextState.anchor, this.props.afterRows);
+    this.setState(nextState);
   },
 
   componentWillMount: function() {
@@ -27,7 +40,11 @@ Explorer.CallHistoryTable = React.createClass({
   },
 
   render() {
-    console.log(this.state.anchor);
+    var tableRows = this.state.addresses.map(function(address) {
+      return (
+          <Explorer.CallHistoryTableRow address={address} key={address}/>
+      );
+    });
     return (
       <div>
         <table className="table">
@@ -44,7 +61,7 @@ Explorer.CallHistoryTable = React.createClass({
             </tr>
           </thead>
           <tbody>
-            <Explorer.CallHistoryTableRow address={this.state.anchor} />
+            {tableRows}
           </tbody>
         </table>
       </div>
@@ -54,18 +71,42 @@ Explorer.CallHistoryTable = React.createClass({
 
 
 Explorer.CallHistoryTableRow = React.createClass({
+  onChange: function() {
+    this.setState(Explorer.stores.CallStore.getCallData(this.props.address));
+  },
+
+  componentWillMount: function() {
+    Explorer.CallActions.fetchCall(this.props.address);
+  },
+
+  componentDidMount: function() {
+    Explorer.stores.CallStore.addChangeListener(this.props.address, this.onChange);
+  },
+
+  componentWillUnmount: function() {
+    Explorer.stores.CallStore.removeChangeListener(this.props.address, this.onChange);
+  },
+
   render() {
-    console.log("in table" + this.props);
+    if (_.isNull(this.state)) {
+      return (
+        <tr>
+          <th scope="row">1</th>
+          <td><Explorer.EthereumAddressIcon address={this.props.address} size="small" /> <code>{this.props.address}</code></td>
+          <td colSpan="6">Loading...</td>
+        </tr>
+      );
+    }
     return (
       <tr>
         <th scope="row">1</th>
-        <td><Explorer.EthereumAddressIcon address={this.props.address} size="small" /> <code>{this.props.address}</code></td>
-        <td>1,000,000</td>
-        <td><Explorer.EthereumAddressIcon address="0xabcd" size="small" /></td>
-        <td>Yes</td>
-        <td>Yes</td>
-        <td>1 ether</td>
-        <td>1 finney</td>
+        <td><Explorer.EthereumAddressIcon address={this.props.address} size="small" /> <Explorer.EthereumAddress address={this.props.address} maxChars={10} /></td>
+        <td>{this.state.targetBlock.toNumber()}</td>
+        <td><Explorer.EthereumAddressIcon address={this.state.schedulerAddress} size="small" /> <Explorer.EthereumAddress address={this.state.schedulerAddress} maxChars={10} /></td>
+        <td><Explorer.YesNo value={this.state.wasCalled} /></td>
+        <td><Explorer.YesNo value={this.state.wasSuccessful} /></td>
+        <td><Explorer.Ether value={this.state.basePayment.toNumber()} /></td>
+        <td><Explorer.Ether value={this.state.baseDonation.toNumber()} /></td>
       </tr>
     );
   }
