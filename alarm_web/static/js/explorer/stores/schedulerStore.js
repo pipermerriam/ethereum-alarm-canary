@@ -18,13 +18,15 @@
       return nextCall;
     },
 
-    getUpcomingCalls: function(anchor, numCalls) {
-      var startIndex = calls.indexOf(anchor);
+    getUpcomingCalls: function(anchor, beforeCount, afterCount) {
+      var anchorIndex = calls.indexOf(anchor);
 
-      if (startIndex === -1) {
+      if (anchorIndex === -1) {
         return [];
       } else {
-        return calls.slice(startIndex, startIndex + numCalls);
+        leftIndex = Math.max(anchorIndex - beforeCount, 0);
+        rightIndex = anchorIndex + afterCount;
+        return calls.slice(leftIndex, rightIndex);
       }
     },
 

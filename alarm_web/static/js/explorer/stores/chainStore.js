@@ -44,4 +44,3 @@
 
   Explorer.stores.ChainStore = ChainStore;
 })();
-

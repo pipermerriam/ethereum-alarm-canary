@@ -16,12 +16,11 @@ Explorer.CallHistoryTable = React.createClass({
     var nextState = {}
     if (!_.isString(this.state.anchor)) {
       nextState.anchor = Explorer.stores.SchedulerStore.getNextCall();
-      Explorer.SchedulerActions.enumerateUpcomingCalls(nextState.anchor, this.props.afterRows);
     } else {
       nextState.anchor = this.state.anchor;
     }
 
-    nextState.addresses = Explorer.stores.SchedulerStore.getUpcomingCalls(nextState.anchor, this.props.afterRows);
+    nextState.addresses = Explorer.stores.SchedulerStore.getUpcomingCalls(nextState.anchor, this.props.beforeRows, this.props.afterRows);
     this.setState(nextState);
   },
 
