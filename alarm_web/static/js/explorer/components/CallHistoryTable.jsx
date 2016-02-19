@@ -103,7 +103,7 @@ Explorer.CallHistoryTableRow = React.createClass({
         <td>{this.state.targetBlock.toNumber()}</td>
         <td><Explorer.EthereumAddressIcon address={this.state.schedulerAddress} size="small" /> <Explorer.EthereumAddress address={this.state.schedulerAddress} maxChars={10} /></td>
         <td><Explorer.YesNo value={this.state.wasCalled} /></td>
-        <td><Explorer.YesNo value={this.state.wasSuccessful} /></td>
+        <td><Explorer.YesNo value={this.state.wasCalled ? this.state.wasSuccessful : null} unknown="--" /></td>
         <td><Explorer.Ether value={this.state.basePayment.toNumber()} /></td>
         <td><Explorer.Ether value={this.state.baseDonation.toNumber()} /></td>
       </tr>
