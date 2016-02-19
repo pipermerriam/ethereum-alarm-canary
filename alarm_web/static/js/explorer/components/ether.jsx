@@ -31,7 +31,7 @@ Explorer.Ether = React.createClass({
     var denom = this.getDenomination(this.props.value);
     var value = Explorer.web3.fromWei(this.props.value, denom);
     return (
-      <span>{_.trunc(value, {length: 6, omission: ''})} {_.capitalize(denom)}</span>
+      <span>{_.trunc(value, {length: 6, omission: ''})} {denom}</span>
     );
   }
 });
